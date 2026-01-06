@@ -1,0 +1,34 @@
+Question 1: Full Inventory Dump
+The manager needs a complete backup of the product category list.
+
+Query:
+select *
+from product_category;
+
+Question 2: Vendor Contact List
+We need to generate a simple calling list. Retrieve only the vendor_name, vendor_owner_first_name, and vendor_owner_last_name from the vendor table.
+
+Query:
+select vendor_name, vendor_owner_first_name, vendor_owner_last_name
+from vendor;
+
+Question 3: Customer Zip Codes
+To map our demographic reach, select just the customer_zip column from the customer table.
+
+Query:
+select customer_zip
+from customer;
+
+Question 4: Product Sizes
+Select the product_name and its corresponding product_size from the product table.
+
+Query:
+select product_name, product_size
+from product;
+
+Question 5: Booth Identification
+Select the booth_number and booth_type from the booth table.
+
+Query:
+select booth_number, booth_type
+from booth;
