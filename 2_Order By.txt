@@ -1,0 +1,76 @@
+Question 6: Alphabetical Vendors
+List all columns for every vendor, but ensure the output is sorted alphabetically by the vendor_name from A to Z.
+
+Query:
+select *
+from vendor
+order by vendor_name;
+
+Question 7: Reverse Customer Sort
+Retrieve all customers (all columns), but sort them by their customer_last_name in descending order (Z to A).
+
+Query:
+select *
+from customer
+order by customer_last_name desc;
+
+Question 8: Chronological Markets
+Select the market_date and market_day from the market_date_info table, ordered from the earliest date to the latest date.
+
+Query:
+select market_date, market_day
+from market_date_info
+order by market_date;
+
+Question 9: Highest Price First
+From the vendor_inventory table, select the product_id and original_price, sorting the results so the most expensive items appear at the very top.
+
+Query:
+select product_id, original_price
+from vendor_inventory
+order by original_price desc;
+
+Question 10: Product Category Order
+Select all columns from the product table, ordered by the product_category_id in ascending order.
+
+Query:
+select *
+from product
+order by product_category_id;
+
+----------------------------------MULTI-COLUMN SORTING ----------------------------------------
+
+Question 11: Regional Sorting
+Retrieve the customer_first_name, customer_last_name, and customer_zip from the customer table. Sort the results first by customer_zip (ascending), and then by customer_last_name (ascending).
+Query:
+
+SELECT customer_first_name, customer_last_name, customer_zip
+FROM customer
+ORDER BY customer_zip, customer_last_name;
+
+
+Question 12: Booth Pricing Tiers
+Select the booth_number, booth_price_level, and booth_description. Sort the list primarily by booth_price_level (A, B, C…) and secondarily by booth_number (lowest to highest).
+Query:
+
+SELECT booth_number, booth_price_level, booth_description
+FROM booth
+ORDER BY booth_price_level, booth_number;
+
+
+Question 13: Inventory Management
+Select the vendor_id, product_id, and quantity from the vendor_inventory table. Sort by quantity descending (largest stock first), and break ties using vendor_id ascending.
+Query:
+
+SELECT vendor_id, product_id, quantity
+FROM vendor_inventory
+ORDER BY quantity DESC, vendor_id;
+
+
+Question 14: Vendor Type Listing
+Select the vendor_type and vendor_name from the vendor table. Sort the list alphabetically by vendor_type first, then by vendor_name descending.
+Query:
+
+SELECT vendor_type, vendor_name
+FROM vendor
+ORDER BY vendor_type, vendor_name DESC;
