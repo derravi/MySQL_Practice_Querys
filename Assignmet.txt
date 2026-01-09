@@ -1,0 +1,261 @@
+Question 1: Customer Name Sort
+
+Retrieve all customer details, sorted alphabetically first by the customer’s last name, and then by the first name if last names are the same.
+
+Query:
+
+SELECT *
+FROM customer
+ORDER BY customer_last_name, customer_first_name;
+
+Question 2: Inventory Management
+
+Display the top 10 records from the vendor inventory table, sorted by quantity in descending order. If quantities are the same, sort by market date in ascending order.
+
+Query:
+
+SELECT *
+FROM vendor_inventory
+ORDER BY quantity DESC, market_date
+LIMIT 10;
+
+Question 3: Detailed Transaction History
+
+Retrieve the 15 most recent customer purchase transactions, sorted by market date (newest first) and transaction time (newest first).
+
+Query:
+
+SELECT *
+FROM customer_purchases
+ORDER BY market_date DESC, transaction_time DESC
+LIMIT 15;
+
+Question 4: Categorized Product List
+
+List all products, sorted first by product category ID in ascending order and then alphabetically by product name.
+
+Query:
+
+SELECT *
+FROM product
+ORDER BY product_category_id, product_name;
+
+Question 5: High Value Inventory
+
+Identify the most expensive inventory records by sorting them by original price (highest first). If prices are equal, sort by quantity (highest first).
+
+Query:
+
+SELECT *
+FROM vendor_inventory
+ORDER BY original_price DESC, quantity DESC
+LIMIT 5;
+
+Question 6: Geographic Customer Sort
+
+Retrieve all customer details, sorted by Zip Code in descending order and then by last name in ascending order.
+
+Query:
+
+SELECT *
+FROM customer
+ORDER BY customer_zip DESC, customer_last_name;
+
+Question 7: Vendor Organization
+
+List all vendors, sorted alphabetically by vendor type and then by the vendor owner’s last name.
+
+Query:
+
+SELECT *
+FROM vendor
+ORDER BY vendor_type, vendor_owner_last_name;
+
+Question 8: Extreme Weather Days
+
+Find the top 3 market dates with the highest maximum temperature. If there is a tie, sort by minimum temperature (lowest first).
+
+Query:
+
+SELECT market_date
+FROM market_date_info
+ORDER BY market_max_temp DESC, market_min_temp
+LIMIT 3;
+
+Question 9: Booth Assignment Log
+
+Retrieve all vendor booth assignments, sorted by booth number in ascending order and then by market date in ascending order.
+
+Query:
+
+SELECT *
+FROM vendor_booth_assignments
+ORDER BY booth_number, market_date;
+
+Question 10: Temperature Analysis
+
+List the 5 market dates with the lowest minimum temperature. If temperatures tie, list the one with the lower maximum temperature first.
+
+Query:
+
+SELECT market_date, market_min_temp, market_max_temp
+FROM market_date_info
+ORDER BY market_min_temp, market_max_temp
+LIMIT 5;
+
+Question 11: Cost Efficiency
+
+Display the top 10 transactions with the highest cost per quantity. If there is a tie, sort by quantity purchased in descending order.
+
+Query:
+
+SELECT *
+FROM customer_purchases
+ORDER BY cost_to_customer_per_qty DESC, quantity DESC
+LIMIT 10;
+
+Question 12: Reverse Alphabetical Customers
+
+Retrieve the 5 customers whose last names appear last alphabetically. Sort by last name and first name in descending order.
+
+Query:
+
+SELECT *
+FROM customer
+ORDER BY customer_last_name DESC, customer_first_name DESC
+LIMIT 5;
+
+Question 13: Booth Price Tiering
+
+List all booth information sorted by booth price level (A, B, C) and then by booth number in ascending order.
+
+Query:
+
+SELECT *
+FROM booth
+ORDER BY booth_price_level, booth_number;
+
+Question 14: Vendor Timeline
+
+Show the first 20 records from the vendor inventory table, sorted chronologically by market date and then by vendor ID.
+
+Query:
+
+SELECT *
+FROM vendor_inventory
+ORDER BY market_date, vendor_id
+LIMIT 20;
+
+Question 15: Product Type Grouping
+
+List all products sorted alphabetically by quantity type and then by product name.
+
+Query:
+
+SELECT *
+FROM product
+ORDER BY product_qty_type, product_name;
+
+Question 16: Vendor Assignment History
+
+Display all vendor booth assignments, sorted by vendor ID in descending order and then by market date in descending order.
+
+Query:
+
+SELECT *
+FROM vendor_booth_assignments
+ORDER BY vendor_id DESC, market_date DESC;
+
+Question 17: Bulk Purchases
+
+Find the top 5 purchases with the largest quantities. Sort by quantity (highest first) and then by cost per quantity (highest first).
+
+Query:
+
+SELECT *
+FROM customer_purchases
+ORDER BY quantity DESC, cost_to_customer_per_qty DESC
+LIMIT 5;
+
+Question 18: Earliest Booth Uses
+
+Retrieve the 10 oldest vendor booth assignments, sorted by market date and then by booth number.
+
+Query:
+
+SELECT *
+FROM vendor_booth_assignments
+ORDER BY market_date, booth_number
+LIMIT 10;
+
+Question 19: Category Ordering
+
+List all products sorted by product name in reverse alphabetical order and then by product category ID in ascending order.
+
+Query:
+
+SELECT *
+FROM product
+ORDER BY product_name DESC, product_category_id;
+
+Question 20: Rainy Day Priorities
+
+Show all market date records, displaying rainy days first, and then sorting by maximum temperature in descending order.
+
+Query:
+
+SELECT market_rain_flag, market_max_temp
+FROM market_date_info
+ORDER BY market_rain_flag DESC, market_max_temp DESC;
+
+Question 21: Zip and Name Sort
+
+Retrieve all customers sorted by Zip Code in ascending order and then by last name in descending order.
+
+Query:
+
+SELECT *
+FROM customer
+ORDER BY customer_zip, customer_last_name DESC;
+
+Question 22: Master Inventory List
+
+Display all vendor inventory records sorted by vendor ID, product ID, and market date — all in ascending order.
+
+Query:
+
+SELECT *
+FROM vendor_inventory
+ORDER BY vendor_id, product_id, market_date;
+
+Question 23: Booth Type Classification
+
+List all booths sorted by booth type and then by booth price level in descending order.
+
+Query:
+
+SELECT *
+FROM booth
+ORDER BY booth_type, booth_price_level DESC;
+
+Question 24: Recent Activity
+
+Retrieve the 5 most recent customer purchase transactions based on market date and transaction time.
+
+Query:
+
+SELECT *
+FROM customer_purchases
+ORDER BY market_date DESC, transaction_time DESC
+LIMIT 5;
+
+Question 25: Customer ID Check
+
+Retrieve the first 10 records from the customer table, sorted by customer ID in ascending order.
+
+Query:
+
+SELECT *
+FROM customer
+ORDER BY customer_id
+LIMIT 10;
