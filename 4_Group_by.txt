@@ -1,0 +1,212 @@
+# EASY Questions
+
+E1. Count total customers in each customer_zip.
+-> select customer_zip,count(customer_id) from customer
+group by customer_zip;
+
+E2. Find total spending per customer_id from customer_purchases.
+-> select  customer_id,round(sum(quantity*cost_to_customer_per_qty),2) as 'Total_Spend' from customer_purchases
+group by customer_id;
+
+E3. Find total quantity purchased per product_id.
+-> select product_id, sum(quantity) from customer_purchases
+group by product_id;
+
+E4. Find maximum quantity available per product_id from vendor_inventory.
+->select product_id, max(quantity) from vendor_inventory
+group by product_id;
+
+E5. Find minimum and maximum original_price for each product_id in vendor_inventory.
+-> select product_id, max(original_price) as "Maximum_Price", min(original_price) as "Minimum_Price" from vendor_inventory
+group by product_id;
+
+E6. Count total transactions per market_date in customer_purchases.
+-> select market_date, count(product_id) as "Total_Transection" from customer_purchases
+group by market_date
+
+E7. Count how many vendors exist for each vendor_type.
+-> select vendor_id,count(vendor_type) as "Total_Vendors" from vendor
+group by vendor_type
+
+# MEDIUM Questions
+
+M1. Find total revenue per vendor_id (quantity * cost_to_customer_per_qty).
+-> select vendor_id,sum(quantity * cost_to_customer_per_qty) as "Total_revenue" from customer_purchases
+group by vendor_id
+
+M2. Find top 5 customers by total spending.
+-> select customer_id,max(quantity*cost_to_customer_per_qty) as "Total_Spending" from customer_purchases
+group by customer_id
+order by Total_Spending desc
+limit 5;
+
+M3. Find total revenue per product_id and show in descending order.
+-> select product_id, sum(quantity*cost_to_customer_per_qty) as "Total_Investment" from customer_purchases
+group by product_id
+order by Total_Investment desc;
+
+M4. Find average original_price per product_id from vendor_inventory.
+->
+
+
+M5. Find total number of booths assigned per vendor_id from vendor_booth_assignments.
+M6. For each market_date, find total quantity sold (from customer_purchases).
+M7. For each product_category_id, count how many products are there in product.
+
+# HARD Questions 
+
+H1. Find total revenue per market_date and show only the dates where revenue > 500.
+H2. Find top 3 products by total revenue (quantity * cost_to_customer_per_qty).
+H3. Find each vendor’s total revenue and total quantity sold (two aggregates together).
+H4. Find for each market_date total customers who made purchase (unique customers).
+H5. Find the product_id which has the highest total quantity sold across all time.
+H6. Find for each market_year, total revenue (join market_date_info with purchases).
+H7. For each vendor, show total revenue + count of unique customers served.
+
+#Answer Key:- 
+
+✅ E1
+SELECT customer_zip,
+       COUNT(customer_id) AS total_customers
+FROM customer
+GROUP BY customer_zip;
+
+✅ E2
+SELECT customer_id,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_spending
+FROM customer_purchases
+GROUP BY customer_id;
+
+✅ E3
+SELECT product_id,
+       SUM(quantity) AS total_quantity_purchased
+FROM customer_purchases
+GROUP BY product_id;
+
+✅ E4
+SELECT product_id,
+       MAX(quantity) AS max_stock_quantity
+FROM vendor_inventory
+GROUP BY product_id;
+
+✅ E5
+SELECT product_id,
+       MIN(original_price) AS min_price,
+       MAX(original_price) AS max_price
+FROM vendor_inventory
+GROUP BY product_id;
+
+✅ E6
+SELECT market_date,
+       COUNT(*) AS total_transactions
+FROM customer_purchases
+GROUP BY market_date;
+
+✅ E7
+SELECT vendor_type,
+       COUNT(vendor_id) AS total_vendors
+FROM vendor
+GROUP BY vendor_type;
+
+✅ MEDIUM Answers (7)
+✅ M1
+SELECT vendor_id,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_revenue
+FROM customer_purchases
+GROUP BY vendor_id;
+
+✅ M2 (Top 5 customers by spending)
+SELECT customer_id,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_spending
+FROM customer_purchases
+GROUP BY customer_id
+ORDER BY total_spending DESC
+LIMIT 5;
+
+✅ M3 (Revenue per product)
+SELECT product_id,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_rev  enue
+FROM customer_purchases
+GROUP BY product_id
+ORDER BY total_revenue DESC;
+
+✅ M4 (Average original price per product)
+SELECT product_id,
+       ROUND(AVG(original_price), 2) AS avg_original_price
+FROM vendor_inventory
+GROUP BY product_id;
+
+✅ M5 (Total booths assigned per vendor)
+SELECT vendor_id,
+       COUNT(booth_number) AS total_booths_assigned
+FROM vendor_booth_assignments
+GROUP BY vendor_id;
+
+✅ M6 (Total quantity sold per market date)
+SELECT market_date,
+       SUM(quantity) AS total_quantity_sold
+FROM customer_purchases
+GROUP BY market_date;
+
+✅ M7 (Products count per category)
+SELECT product_category_id,
+       COUNT(product_id) AS total_products
+FROM product
+GROUP BY product_category_id;
+
+✅ HARD Answers (7)
+✅ H1 (Revenue per date > 500)
+SELECT market_date,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_revenue
+FROM customer_purchases
+GROUP BY market_date
+HAVING total_revenue > 500
+ORDER BY total_revenue DESC;
+
+✅ H2 (Top 3 products by revenue)
+SELECT product_id,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_revenue
+FROM customer_purchases
+GROUP BY product_id
+ORDER BY total_revenue DESC
+LIMIT 3;
+
+✅ H3 (Vendor revenue + total quantity sold)
+SELECT vendor_id,
+       SUM(quantity) AS total_quantity_sold,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_revenue
+FROM customer_purchases
+GROUP BY vendor_id
+ORDER BY total_revenue DESC;
+
+✅ H4 (Unique customers per date)
+SELECT market_date,
+       COUNT(DISTINCT customer_id) AS unique_customers
+FROM customer_purchases
+GROUP BY market_date
+ORDER BY unique_customers DESC;
+
+✅ H5 (Product with highest quantity sold)
+SELECT product_id,
+       SUM(quantity) AS total_quantity_sold
+FROM customer_purchases
+GROUP BY product_id
+ORDER BY total_quantity_sold DESC
+LIMIT 1;
+
+✅ H6 (Revenue per market_year using join)
+SELECT mdi.market_year,
+       ROUND(SUM(cp.quantity * cp.cost_to_customer_per_qty), 2) AS total_revenue
+FROM market_date_info mdi
+JOIN customer_purchases cp
+ON mdi.market_date = cp.market_date
+GROUP BY mdi.market_year
+ORDER BY total_revenue DESC;
+
+✅ H7 (Vendor revenue + unique customers served)
+SELECT vendor_id,
+       ROUND(SUM(quantity * cost_to_customer_per_qty), 2) AS total_revenue,
+       COUNT(DISTINCT customer_id) AS unique_customers_served
+FROM customer_purchases
+GROUP BY vendor_id
+ORDER BY total_revenue DESC;

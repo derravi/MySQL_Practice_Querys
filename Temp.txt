@@ -1,0 +1,64 @@
+1️⃣ market_date_info
+market_date
+market_day
+market_week
+market_year
+market_start_time
+market_end_time
+special_notes
+market_season
+market_min_temp
+market_max_temp
+market_rain_flag
+market_snow_flag
+
+2️⃣ booth
+booth_number
+booth_price_level
+booth_description
+booth_type
+
+3️⃣ vendor_booth_assignments
+vendor_id
+booth_number
+market_date
+
+4️⃣ customer
+customer_id
+customer_first_name
+customer_last_name
+customer_zip
+
+5️⃣ customer_purchases
+product_id
+vendor_id
+market_date
+customer_id
+quantity
+cost_to_customer_per_qty
+transaction_time
+
+6️⃣ vendor
+vendor_id
+vendor_name
+vendor_type
+vendor_owner_first_name
+vendor_owner_last_name
+
+7️⃣ vendor_inventory
+market_date
+quantity
+vendor_id
+product_id
+original_price
+
+8️⃣ product
+product_id
+product_name
+product_size
+product_category_id
+product_qty_type
+
+9️⃣ product_category
+product_category_id
+product_category_name
