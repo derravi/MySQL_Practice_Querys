@@ -1,0 +1,45 @@
+============================================================
+1) BASIC SELECT / RETRIEVE DATA
+============================================================
+
+Q1. Retrieve the complete list of details for every customer stored in the database.
+Your Answer:
+select * from customer;
+
+Q2. Filter the customer list to find only those individuals who reside in the zip code 22801.
+Your Answer:
+select * from customer
+where customer_zip=22801;
+
+Q7. Display only the first name and last name for every vendor in the vendor table.
+Your Answer:
+select vendor_owner_first_name,vendor_owner_last_name from vendor;
+
+Q8. Retrieve all vendors of specific vendor type 'Fresh Focused'.
+Your Answer:
+select * from vendor
+where vendor_type = "Fresh Focused";
+
+Q13. List all products in the database, sorting them alphabetically by their product name.
+Your Answer:
+select * from product
+order by product_name;
+
+Q19. Show all details from the booth table, ordered by the booth price level in ascending order.
+Your Answer:
+select * from booth
+order by booth_price_level;
+
+Q25. Retrieve the first 10 records from the customer purchases table to get a sample of the data.
+Your Answer:
+select * from customer_purchases
+limit 5;
+
+Corrected:
+select * from customer_purchases
+limit 10;
+
+Q49. Display the booth assignments table, but limit the output to only 7 records.
+Your Answer:
+select * from vendor_booth_assignments
+limit 7;

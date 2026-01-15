@@ -1,0 +1,71 @@
+
+============================================================
+2) WHERE FILTERING (AND / OR / NOT / BETWEEN)
+============================================================
+
+Q14. Retrieve details for products that belong to either Category ID 1 OR Category ID 2.
+Your Answer:
+select * from product
+where product_category_id=1 or product_category_id=2;
+
+Q18. Select first 5 products where category ID is NOT 1 and product size is NOT 'large'.
+Your Answer:
+select * from product
+where product_id <> 1 and product_size <> "large"
+limit 5;
+
+Corrected:
+select * from product
+where product_category_id <> 1 and product_size <> "large"
+limit 5;
+
+Q20. Find purchase records where quantity is exactly 1 AND vendor_id is 7.
+Your Answer:
+select * from customer_purchases
+where quantity = 1 and vendor_id = 7;
+
+Q26. Find all products where product_category_id is NOT equal to 5.
+Your Answer:
+select * from product
+where product_category_id <> 5;
+
+Q32. List booths that have price level either 'A' or 'B'.
+Your Answer:
+select * from booth
+where booth_price_level="A" or booth_price_level="B";
+
+Q38. Inventory records where quantity is between 10 and 20.
+Your Answer:
+select * from vendor_inventory
+where quantity between 10 and 20;
+
+Q42. Customers whose ID is between 1 and 20 AND zip is 22821.
+Your Answer:
+select * from customer
+where customer_zip=22821 and customer_id between 1 and 20;
+
+Q44. Customers with customer_id between 5 and 15.
+Your Answer:
+select customer_id from customer
+where customer_id between 5 and 15;
+
+Q50. Products where category is NOT 3 AND product_size is 'medium'.
+Your Answer:
+select * from product
+where product_category_id <>3 and product_size="medium";
+
+Q54. Purchases where cost_to_customer_per_qty > 5 OR quantity > 10, limit 15.
+Your Answer:
+select * from customer_purchases
+where cost_to_customer_per_qty > 5 or quantity > 10
+limit 15;
+
+Q56. Booth assignments for vendor 7 where booth_number is 11 or 12.
+Your Answer:
+select * from vendor_booth_assignments
+where vendor_id = 7 and (booth_number=11 or booth_number=12);
+
+Q60. Modulo 3 of vendor_id and show only where result is not 0.
+Your Answer:
+select *,(vendor_id%3) as "New_Id_with_Modulo" from vendor
+where vendor_id%3 <> 0;
