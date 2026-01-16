@@ -1,0 +1,48 @@
+============================================================
+ STRING FUNCTIONS (CONCAT / LEFT / RIGHT / LENGTH / TRIM)
+============================================================
+
+Q3. Full Name = first name + space + last name.
+Answer:
+select concat(customer_first_name," ",customer_last_name) from customer;
+
+Q9. First 3 characters of product_name.
+Answer:
+select *, left(product_name,3) as "Temp" from product;
+
+Q15. Last 2 characters of vendor owner’s last name.
+Answer:
+select *, right(vendor_owner_last_name,2) as "Last_two" from vendor;
+
+Q21. Length of product_name for each product.
+Answer:
+select *,length(product_name) as "Name_Length" from product;
+
+Q24. Product name and length, only where length > 10.
+Answer:
+select *,length(product_name) as "Charecter_Count" from product
+where length(product_name) > 10;
+
+Q27. Unique vendor identifier (type-name).
+Answer:
+select *,concat(vendor_type,"-",vendor_owner_first_name) as "new_columns" from vendor;
+
+Q33. First 3 digits of customer_zip.
+Answer:
+select *,left(customer_zip,3) as "First_three" from customer;
+
+Q39. Trim booth_description.
+Answer:
+select booth_description,trim(booth_description) as "Trimed_columns" from booth;
+
+Q45. Customer code (first letter of first name + last letter of last name).
+Answer:
+select concat(left(customer_first_name,1), right(customer_last_name,1)) as "new_name" from customer;
+
+Q48. Mask vendor_name (first 3 letters + ...)
+Answer:
+select *,concat(left(vendor_name,3),"...") as "New_name" from vendor;
+
+Q51. Length of booth_description.
+Answer:
+select *,length(booth_description) as "booth_description_length" from booth;

@@ -1,0 +1,30 @@
+============================================================
+ SORTING (ORDER BY)
+============================================================
+
+Q6. Full names for customers in zip 22801, sorted by last name.
+Answer:
+select *, concat(customer_first_name," ",customer_last_name) as "Fname" from customer
+where customer_zip=22801
+order by customer_last_name;
+
+Q31. Product_id and product_size sorted by category_id descending.
+Answer:
+select product_id,product_size from product
+order by product_category_id desc;
+
+Q36. Booth description and price level where description length > 20, sorted by booth_number.
+Answer:
+select booth_price_level,booth_description from booth
+where length(booth_description) > 20
+order by booth_number;
+
+Q43. Customers sorted by zip ascending, and last name descending.
+Answer:
+select * from customer
+order by customer_zip, customer_last_name desc;
+
+Q55. Inventory sorted by quantity desc, then original_price asc.
+Answer:
+select * from vendor_inventory
+order by quantity desc, original_price;
