@@ -1,0 +1,104 @@
+============================================================
+ CASE WHEN LABELING / CATEGORIZATION
+============================================================
+
+Q5. Category label: if category_id = 1 => Food else Other.
+Your Answer:
+select *, case when product_category_id = 1 then "Food"
+            else "Other"
+            end as "category"
+from product_category;
+
+Corrected:
+select product_name,
+case when product_category_id = 1 then "Food" else "Other" end as category_label
+from product;
+
+Q11. Customer status label: Early if customer_id < 10 else Standard.
+Your Answer:
+select customer_first_name,
+case when customer_id<10 then "Early" else "Standard" end as "status"
+from customer;
+
+Q17. Booth label by booth_price_level.
+Your Answer:
+select booth_number,
+case when booth_price_level = "A" then "Prime"
+     when booth_price_level = "B" then "Standard"
+     else "Others" end as "label"
+from booth;
+
+Q23. Stock label for vendor_inventory.
+Your Answer:
+select *,
+case when quantity > 20 then "High Stock" else "Low Stock" end as "Category"
+from vendor_inventory;
+
+Q29. Product size classification.
+Your Answer:
+select *,
+case when product_size="large" then "L" else "S/M" end as "classification_of_Product"
+from product;
+
+Q35. Quantity label: 1-5 Small Batch else Bulk.
+Your Answer:
+select *,
+case when quantity between 1 and 5 then "Small Batch" else "Bulk" end as "Label_Quantity"
+from customer_purchases;
+
+Q41. Vendor type readable label.
+Your Answer:
+select
+case when vendor_type = "Prepared Foods" then "Ready to Eat"
+     else "Ingredients" end as "vendor_types"
+from vendor;
+
+Q47. Regional label based on zipcode.
+Your Answer:
+select *,
+case when customer_zip=22801 then "Centeal"
+     when customer_zip=22802 then "External"
+     else "Others" end as "regional_label"
+from customer;
+
+Corrected:
+select *,
+case
+  when customer_zip = 22801 then "Central"
+  when customer_zip = 22802 then "East"
+  else "External"
+end as regional_label
+from customer;
+
+Q53. Booth type flag: Large => 1 else 0.
+Your Answer:
+select *,
+case when booth_type = "Large" then 1 else 0 end as "Booth_type"
+from booth;
+
+Q59. Purchase cost classification.
+Your Answer:
+select *,
+case when cost_to_customer_per_qty > 10 then "Expensive"
+     when cost_to_customer_per_qty between 5 and 10 then "Moderate"
+     else "Cheap" end as "purchase_costs"
+from customer_purchases;
+
+
+============================================================
+ LIMIT / OFFSET
+============================================================
+
+Q37. Retrieve 5 vendor records, skip first 2.
+Your Answer:
+select * from vendor limit 2,5;
+
+
+============================================================
+ COMBINED COLUMNS / IDS
+============================================================
+
+Q57. Location Code = booth_price_level + booth_type.
+Your Answer:
+select *,concat(booth_price_level," ",booth_type) as "Location_Code" from booth;
+

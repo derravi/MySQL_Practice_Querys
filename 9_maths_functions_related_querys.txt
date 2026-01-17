@@ -1,0 +1,62 @@
+============================================================
+ MATH FUNCTIONS (ROUND / MODULO / CALCULATIONS)
+============================================================
+
+Q4. Total spend = quantity * cost_to_customer_per_qty (rounded 2 decimals).
+Your Answer:
+select *,round((quantity*cost_to_customer_per_qty),2) as "Total Cost" from customer_purchases;
+
+Q10. Original price rounded to 0 decimals.
+Your Answer:
+select round(original_price,0) from vendor_inventory;
+
+Q12. Total cost for Vendor ID 7 purchases.
+Your Answer:
+select *,round((quantity*cost_to_customer_per_qty),2) as "total_cost" from customer_purchases;
+
+Corrected (total for vendor 7):
+select round(sum(quantity*cost_to_customer_per_qty),2) as total_cost
+from customer_purchases
+where vendor_id = 7;
+
+Q16. Even/odd using modulo 2.
+Your Answer:
+select customer_id,case when customer_id%2 then "Even" else "Odd" end as "Reminder" from customer;
+
+Corrected:
+select customer_id,
+case when customer_id % 2 = 0 then "Even" else "Odd" end as "Result"
+from customer;
+
+Q22. Square of quantity.
+Your Answer:
+select *,(quantity*quantity) as "Power" from customer_purchases;
+
+Q28. Sale Price = original_price / 2.
+Your Answer:
+select (original_price/2) as "Sale_Price" from vendor_inventory;
+
+Q30. Items where quantity*original_price > 50.
+Your Answer:
+select *, (quantity*original_price) as "Value" from vendor_inventory
+where (quantity*original_price) > 50;
+
+Q34. Remainder when product_id divided by 5.
+Your Answer:
+select *,(product_id%5) as "Reminder" from product;
+
+Q40. Revenue = quantity*original_price rounded to 1 decimal.
+Your Answer:
+select round((quantity*original_price),1) as "Revenue" from vendor_inventory;
+
+Q46. Cube of quantity.
+Your Answer:
+select *,round((quantity*quantity*quantity),2) as "Cube" from customer_purchases;
+
+Q52. New product_id = product_id + 10.
+Your Answer:
+select *,(product_id+10) as "New_Product_id" from product;
+
+Q58. Difference between cost_to_customer_per_qty and 5.
+Your Answer:
+select *, round((cost_to_customer_per_qty-5),2) as "New_ctcpq" from customer_purchases;
