@@ -115,7 +115,7 @@ group by vendor_id
 total_quantity_sold DESC
 LIMIT 1;
 
-✅ H6 (Revenue per market_year using join)
+H6 (Revenue per market_year using join)
 SELECT mdi.market_year,
        ROUND(SUM(cp.quantity * cp.cost_to_customer_per_qty), 2) AS total_revenue
 FROM market_date_info mdi
@@ -123,3 +123,54 @@ JOIN customer_purchases cp
 ON mdi.market_date = cp.market_date
 GROUP BY mdi.market_year
 ORDER BY total_revenue DESC;
+
+
+================================================================================================================
+                            Assignment:- 2 Group By, Agregation, Sub-Query
+================================================================================================================
+
+Part 1: Complex Filtering & String Logic
+
+1. Complex Pattern Matching: Find all customers where the first name starts with 'A' or 'B' AND the last name ends with 'n' or 's', excluding those residing in zip code '22801'.
+-> select * from customer
+where (customer_first_name like "A%" or customer_first_name like "B%") AND
+      (customer_last_name like "n%" or customer_last_name like "s%") and 
+      customer_zip <> '22801';
+
+2. Derived String Columns: Generate a list of vendor_names formatted as "Last Name, First Initial." (e.g., "Smith, S."). You must parse the vendor_owner_first_name and vendor_owner_last_name columns.
+-> select concat(vendor_owner_first_name,", ",left(vendor_owner_first_name,1),".") as "vendor_nam" from vendor;
+
+3. Conditional Null Handling: Select all products. Create a column clean_size that returns the product_size. If product_size is NULL or empty, return 'Unknown'. If it contains the word 'box', return 'Bulk'.
+-> select case when product_size is NULL or  product_size = "" then "Unknown"
+                when product_size Like "%box%" then "Bult"
+                else product_size end as "clean_size" from product;
+
+4. Length-Based Filtering: Identify customers whose First Name is longer than their Last Name.
+-> select customer_id,customer_first_name,customer_first_name from customer
+where length(customer_first_name) > length(customer_first_name);
+
+5. Wildcard Exclusion: Select all products that do NOT contain the words 'Pie', 'Bread', or 'Bun' in their name.
+->select * from product
+where product_name not like "%Pie%" or product_name not like "%Bread%" or product_name not like "%Bun%";
+
+-------------------Problematic_Questions-----------------------------
+6. Mid-String Extraction: (Hypothetical) Assuming a column format like 'ID-Type-Loc', select booth_description and try to extract the second word from the string (assuming space delimiter).
+->
+
+7. Phonetic/Soundex (Concept): Find customers with last names that sound like 'Hanson' (Use standard SQL pattern matching like LIKE '%ns%n' if specific functions aren't available).
+->select * from customer
+where customer_last_name like "%ns%n%";
+
+8. Case-Insensitive Search: Find all products where the name contains 'organic' (regardless of case: Organic, organic, ORGANIC).
+-> select lower(product_name) from product
+where lower(product_name) like "%organic%";
+
+9. Modulo Arithmetic: Select every 3rd customer from the customer table (based on customer_id).
+-> select customer_id from customer
+where customer_id%3 =0;
+
+10. Nested Logical Operators: Find purchases where: (Quantity > 10) OR (Quantity > 5 AND Cost Per Qty > 10.00) OR (Cost Per Qty > 20.00).
+-> select * from customer_purchases
+where (quantity>10) or (quantity>5
+ and cost_to_customer_per_qty > 10.00) 
+ or (cost_to_customer_per_qty>20.00);
