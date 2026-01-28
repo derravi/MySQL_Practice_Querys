@@ -174,3 +174,68 @@ where customer_id%3 =0;
 where (quantity>10) or (quantity>5
  and cost_to_customer_per_qty > 10.00) 
  or (cost_to_customer_per_qty>20.00);
+
+==================================================================================================================
+                              Part 2: Advanced Aggregation & Grouping
+==================================================================================================================
+
+11. Conditional Aggregation: For each vendor, calculate the count of "Small" purchases (qty < 5) and "Large" purchases (qty >= 5) in two separate columns.
+->
+select vendor_id,sum(case when quantity<5 then 1 else 0 end) as "Small",
+       sum(case when quantity>=5 then 1 else 0 end) as "Large"
+ from customer_purchases
+ group by vendor_id;
+
+12. Variance Calculation (Manual): Without using a VARIANCE function, write a query to calculate the squared difference from the mean for cost_to_customer_per_qty for a specific product.
+-> select product_id ,avg((cost_to_customer_per_qty-(select avg(cost_to_customer_per_qty) from customer_purchases))*
+                    (cost_to_customer_per_qty-(select avg(cost_to_customer_per_qty) from customer_purchases))) as  "Variance"
+                    from customer_purchases
+                    where product_id=1;
+
+13. Filtered Groups: Calculate the average product price per category, but ONLY include products that have a non-null size and a price greater than 0.
+-> select pc.product_category_id,pc.product_category_name,avg(vi.original_price) as "Average_price"
+     from vendor_inventory vi 
+join product p 
+on p.product_id = vi.product_id
+join product_category pc
+on pc.product_category_id=p.product_category_id
+
+where p.product_size is not null and vi.original_price > 0
+group by pc.product_category_id,pc.product_category_name;
+
+14. Having with Logic: Find customer_zip codes that have at least 5 distinct customers AND where the customer IDs are all greater than 10.
+-> select customer_zip ,count(distinct(customer_id)) as "Customer_count" from customer
+where customer_id > 10
+group by customer_zip
+having count(distinct(customer_id)) >= 5;
+
+15. Weighted Average (Concept): Calculate the weighted average price of a product sold by Vendor 7 (Weight = Quantity Sold). Formula: Sum(Price * Qty) / Sum(Qty).
+-> select vendor_id, round(avg(original_price),2) as "Average_price",
+    round(sum(quantity*original_price) / sum(quantity),2) as "Weighted_avg_price" from vendor_inventory
+where vendor_id = 7;
+
+16. Grouping by Derived Date: Count the number of market days per year (extract Year from market_date) in the market_date_info table.
+->select market_year,count(market_day) as "Total_days" from market_date_info
+group by market_year;
+
+17. Multi-Level Grouping: Group customer_purchases by vendor_id and product_id. Return only groups where the total quantity sold exceeds 50.
+->select vendor_id,product_id,sum(quantity)as "Total_Quantity" from customer_purchases
+group by vendor_id,product_id
+having sum(quantity)>50;
+
+-----------------probleb on GROUP_CONCAT not studyd----------------------------------
+18. Concatenating Grouped Strings: (If supported, e.g., GROUP_CONCAT) List each product_category_id and a comma-separated list of product_names in that category. (Or pseudo-code the logic).
+->select concat(product_category_id,",",product_name) as "Group_concate" from product
+group by product_category_id;
+
+19. Distribution Analysis: Count how many transactions fall into price brackets: $0-$5, $5.01-$10, $10+.
+-> select Price_Brackets_columns,count(*) as "Total_Count" from (select case when cost_to_customer_per_qty between 0 and 5 then "0 to 5"
+            when cost_to_customer_per_qty between 5.01 and 10 then "5 to 10"
+            else "10+" end as "Price_Brackets_columns" from customer_purchases) as r
+group by Price_Brackets_columns;
+
+20. Peak Volume Identification: Identify the single date with the highest total quantity sold across all vendors.
+->select market_date,sum(quantity) as "Total_quantity" from customer_purchases
+group by market_date
+order by sum(quantity) desc
+limit 1
