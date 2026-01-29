@@ -1,0 +1,47 @@
+=================================================================================
+----------------Subqueries & Set Operations (Replacing Joins)--------------------
+=================================================================================
+
+21. Scalar Subquery Filtering: Select all customer_purchases where the cost_to_customer_per_qty is greater than the overall average cost of ALL purchases.
+-> select customer_id,cost_to_customer_per_qty from customer_purchases
+where cost_to_customer_per_qty > (select avg(cost_to_customer_per_qty) as "Average_Cost" from customer_purchases)
+
+22. IN Clause (List): List the details of customers who live in the same zip code as Customer ID 1.
+-> select * from customer where customer_zip in (select customer_zip from customer where customer_id=1);
+
+23. NOT IN (Exclusion): Find products that have NEVER been purchased (Product ID is not in the customer_purchases product_id list).
+-> select * from product
+where product_id not in (select distinct(product_id) from customer_purchases)
+
+------------------Not Studyd EXISTS---------------------------------------------
+24. Correlated Subquery (Existence): Find vendors who have at least one record in the vendor_inventory table. (Use EXISTS).
+-> 
+
+------------------------Output not understanding-----------------------
+25. Correlated Subquery (Calculation): List every product and the difference between its price (from inventory) and the average price of all products carried by that specific vendor.
+->SELECT product_id , original_price ,
+(original_price - (SELECT AVG(original_price) FROM vendor_inventory vi2
+WHERE vi2.vendor_id = vi1.vendor_id)) as diff_from_avg
+FROM vendor_inventory vi1;
+
+26. Nested Subqueries in FROM: Calculate the average "Daily Revenue" for the market. (Inner query: Sum revenue per date; Outer query: Avg of those sums).
+->select avg(Daily_revanue) from
+(select market_date,sum(quantity*cost_to_customer_per_qty) as "Daily_revanue" from customer_purchases
+group by market_date) as sample
+
+27. Filtering by Aggregated Result: Select vendors whose total sales (sum of quantity) is greater than the maximum sales of Vendor ID 4.
+-> select vendor_id, sum(quantity) as total_sum from customer_purchases
+group by vendor_id
+having sum(quantity) > (select max(quantity) from customer_purchases
+where vendor_id = 4);
+
+28. Simulating Intersect: Find customer IDs that appear in transactions on '2019-04-03' AND '2019-04-06'.
+
+29. Simulating Except: Find products (by ID) that are in the product table but do not appear in the vendor_inventory table.
+-> select product_id,product_name from product
+where product_id not in (select distinct(product_id) from vendor_inventory);
+
+30. Category filtering without Join: Select all products from the product table where the product_category_id corresponds to 'Fresh Fruits & Vegetables' (Find the ID using a subquery on the category table).
+-> select product_id,product_category_id,product_name from product
+where product_category_id = (select product_category_id from product_category
+where product_category_name = "Fresh Fruits & Vegetables")
