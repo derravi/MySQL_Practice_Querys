@@ -1,0 +1,27 @@
+==================================================================================
+                                Joins Questions
+==================================================================================
+Question: Let’s say we wanted to list each product name along with its 
+product category name. 
+->select p.product_id,p.product_name,pc.product_category_id,pc.product_category_name from product as p
+join product_category as pc
+on p.product_category_id = pc.product_category_id;
+
+Question: Get all the Customers who have not purchased anything from the market 
+yet.
+-> select c.customer_id from customer as c
+left join customer_purchases as cp
+on c.customer_id = cp.customer_id
+where cp.customer_id is null;
+
+#Question: Let’s say we want to write a query that returns a list of all 
+customers who did not make a purchase on March 2, 2019.
+-> select distinct c.customer_id from customer as c
+left join customer_purchases as cp
+on c.customer_id = cp.customer_id
+where cp.market_date is null or cp.market_date <> '2019-03-02'
+
+#Question: Let’s say we want details about all farmer’s market 
+booths, as well as every vendor booth assignment for every market 
+date
+->
