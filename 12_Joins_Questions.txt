@@ -57,3 +57,81 @@ on b.booth_number = vba.booth_number
 left join vendor as v 
 on v.vendor_id = vba.vendor_id
 order by b.booth_number,vba.market_date
+
+==================================================================================
+                                INNER JOIN Questions
+==================================================================================
+
+(1) Customers who made a purchase       
+-> select distinct c.customer_id,c.customer_first_name, c.customer_last_name
+from customer as c join customer_purchases as cp
+on c.customer_id = cp.customer_id
+
+(2) Product name and category for products sold
+-> select p.product_name,pc.product_category_name from customer_purchases as cp
+join product as p
+on p.product_id = cp.product_id
+join product_category as pc
+on p.product_category_id = pc.product_category_id
+
+(3) Market date, vendor, and booth description
+-> select vba.vendor_id,vba.market_date,b.booth_description from booth as b
+join vendor_booth_assignments as vba
+on b.booth_number = vba.booth_number
+
+(4) Products sold by ”Marco’s Peppers”
+-> select v.vendor_name, v.vendor_id from customer_purchases as cp
+join vendor_inventory as vi
+on cp.vendor_id = vi.vendor_id
+join vendor as v
+on v.vendor_id = vi.vendor_id
+where v.vendor_name = "Marco’s Peppers"
+
+(5) Total revenue by vendor type
+-> select v.vendor_type, sum(cp.quantity*cp.cost_to_customer_per_qty) as "Total_revenue" from customer_purchases as cp
+join vendor as v 
+on cp.vendor_id = v.vendor_id
+group by v.vendor_type
+
+(6) Customer, product for purchases on ’2019-07-06’
+-> select p.product_name,c.customer_first_name,c.customer_last_name,cp.market_date
+from customer as c
+join customer_purchases as cp
+on c.customer_id = cp.customer_id
+join product as p 
+on p.product_id = cp.product_id
+where cp.market_date = '2019-07-06'
+
+(7) Fresh Fruits & Veg in inventory in August 2019
+-> select p.product_name, pc.product_category_name, vi.market_date from product as p
+join product_category as pc
+on p.product_category_id = pc.product_category_id
+join vendor_inventory as vi
+on vi.product_id = p.product_id
+where vi.market_date like '2019-08%' and pc.product_category_name = 'Fresh Fruits & Vegetables';
+
+(8) Customers who bought ’lbs’ products:
+select c.customer_first_name,c.customer_last_name,p.product_qty_type from customer as c
+join customer_purchases as cp
+on c.customer_id = cp.customer_id
+join product as p
+on p.product_id = cp.product_id
+where p.product_qty_type = 'lbs'
+
+(9)4-table join (customer, vendor, product, booth)
+-> SELECT 
+  c.customer_id, 
+  p.product_id,
+  v.vendor_id,
+  b.booth_number
+FROM customer AS c
+JOIN customer_purchases AS cp
+  ON c.customer_id = cp.customer_id
+JOIN product AS p
+  ON p.product_id = cp.product_id
+JOIN vendor AS v
+  ON cp.vendor_id = v.vendor_id
+JOIN vendor_booth_assignments AS vba
+  ON v.vendor_id = vba.vendor_id
+JOIN booth AS b
+  ON vba.booth_id = b.booth_id;
