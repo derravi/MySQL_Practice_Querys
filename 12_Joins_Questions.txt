@@ -135,3 +135,18 @@ JOIN vendor_booth_assignments AS vba
   ON v.vendor_id = vba.vendor_id
 JOIN booth AS b
   ON vba.booth_id = b.booth_id;
+
+==================================================================================
+                                LEFT & RIGHT JOIN Questions
+==================================================================================
+
+(1) Customers who have never made a purchase
+-> select distinct c.* from customer as c left join customer_purchases as cp 
+on c.customer_id = cp.customer_id
+
+(2) All vendors and their assigned booth countselect v.vendor_id,count(b.booth_number) as "Total_booth_number" from vendor as v 
+left join vendor_booth_assignments as vba 
+on v.vendor_id = vba.vendor_id
+left join booth as b
+on b.booth_number = vba.booth_number
+group by v.vendor_id
