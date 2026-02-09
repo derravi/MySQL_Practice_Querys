@@ -150,3 +150,12 @@ on v.vendor_id = vba.vendor_id
 left join booth as b
 on b.booth_number = vba.booth_number
 group by v.vendor_id
+
+----------------------Problematic cant understand the answer----------------
+(3) All products and total quantity sold (including never-sold):
+-> SELECT
+p.product_name,
+SUM(COALESCE(cp.quantity, 0)) AS total_quantity_sold
+FROM product p
+LEFT JOIN customer_purchases cp ON p.product_id = cp.product_id
+GROUP BY p.product_id, p.product_name;
