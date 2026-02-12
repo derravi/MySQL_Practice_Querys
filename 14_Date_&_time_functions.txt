@@ -1,0 +1,18 @@
+=================================================================================
+-----------------------Part 4: Date, Time & CASE Logic---------------------------
+=================================================================================
+
+31. Date Difference: Calculate the number of days between the first and last recorded market date in the market_date_info table.
+-> select (max(market_date) - min(market_date) ) as "Date_diff" from market_date_info;
+
+32. Day of Week Logic: Select the market_date and return a column 'Weekend' if the day is Saturday or Sunday, otherwise 'Weekday'.
+->select case when Day_name='Saturday' then 'Saturday' 
+        when Day_name='Sunday' then "Sunday" 
+        else "Weekday" end as "Weekend"
+from (select dayname(market_date) as "Day_name" from market_date_info) as a 
+
+33. Time Buckets: Using transaction_time, categorize purchases into 'Morning' (before 12:00), 'Afternoon' (12:00-16:00), and 'Evening' (after 16:00).
+-> select case when Hours <= 12 then "Morning"
+        when Hours>12 and Hours<=16 then "Afternoon"
+        else "Evening" end as "Time_Buckets" from (select transaction_time, extract(hour from transaction_time) as "Hours"
+from customer_purchases) as a 
