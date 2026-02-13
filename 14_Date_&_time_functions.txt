@@ -16,3 +16,13 @@ from (select dayname(market_date) as "Day_name" from market_date_info) as a
         when Hours>12 and Hours<=16 then "Afternoon"
         else "Evening" end as "Time_Buckets" from (select transaction_time, extract(hour from transaction_time) as "Hours"
 from customer_purchases) as a 
+
+34. Complex Case Sorting: Order the booth table by booth_price_level, but force 'Small' booths (from description) to appear at the bottom regardless of price level.
+-> select * from booth
+order by 
+    case when booth_description like '%Small%' then 1 else 0 end,
+     booth_price_level
+
+35. Flagging Data: Create a query that selects all vendor inventory records and adds a flag price_anomaly if the price is more than 3x the average price of that product.
+-> select *, case when original_price > 3*avg(original_price) over(partition by product_id) then 1 else 0 end as "price_anomaly"
+from vendor_inventory
