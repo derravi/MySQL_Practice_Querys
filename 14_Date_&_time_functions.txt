@@ -36,3 +36,18 @@ group by Month_
 
 38. Age Calculation (Mock): Assuming a hypothetical birth_date column, write the logic to calculate age in years as of today.
 ->
+
+39. Quarterly Reporting: Group sales data by Quarter (Q1, Q2, Q3, Q4) based on the month of the market_date.
+-> select market_date,extract(month from market_date) as "Month",
+ case when a.Month_count between 1 and 3 then "Q1"
+        when a.Month_count between 4 and 6 then "Q2"
+        when a.Month_count between 7 and 9 then "Q3"
+        else "Q4" end as "Quarterly_Reporting"
+ from (select market_date, extract(month from market_date) as "Month_count" from market_date_info) as a
+
+40. Null Coalescing: Select product_size, but if it is null, fallback to checking product_qty_type, if that is null, fallback to 'Standard'.
+->select product_size,product_qty_type,
+case when product_size is not null then product_size
+     when product_qty_type is not null then product_qty_type
+else "Standard" end as "Null_Coalescing"
+ from product
