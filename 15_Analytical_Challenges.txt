@@ -1,0 +1,24 @@
+=================================================================================
+-------------------Part 5: Analytical Challenges (Advanced)----------------------
+=================================================================================
+
+41. Top N per Group: Find the top 2 most expensive products (by original_price) for vendor_id 7.
+-> select vendor_id,product_id,original_price from vendor_inventory
+having vendor_id = 7
+order by original_price desc
+limit 2
+
+42. Customer Loyalty (Frequency): Identify customers who have made purchases on more than 5 distinct dates.
+-> select distinct customer_id,count(distinct market_date) "Purchase_Date_count" from customer_purchases 
+group by customer_id
+having count(distinct market_date) > 5 
+
+---------------------------Question not understanding---------------------
+43. Pareto Principle (80/20): Calculate the total revenue. Then, calculate the revenue of the top 20% of vendors (by revenue). (Requires separate subqueries).
+->
+
+44. Consecutive Days (Logic): Write a query to check if Vendor 7 had inventory on '2019-04-03' AND the immediate next market date '2019-04-06'.
+->select a.vendor_id,a.market_date from (select vendor_id,market_date,lead(market_date) over(partition by vendor_id order by market_date) as "next_market_date"
+from vendor_inventory
+where vendor_id=7) as a
+where a.market_date = '2019-04-03' and a.next_market_date = '2019-04-06'

@@ -51,3 +51,4 @@ case when product_size is not null then product_size
      when product_qty_type is not null then product_qty_type
 else "Standard" end as "Null_Coalescing"
  from product
+
