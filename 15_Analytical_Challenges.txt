@@ -22,3 +22,21 @@ having count(distinct market_date) > 5
 from vendor_inventory
 where vendor_id=7) as a
 where a.market_date = '2019-04-03' and a.next_market_date = '2019-04-06'
+
+45. Basket Size Analysis: Calculate the average number of items (quantity) purchased per single transaction (defined by a unique combination of customer, vendor, and time).
+-> select avg(a.Average_Qty) as "Basket_Size" from 
+(select customer_id,vendor_id,sum(quantity) as "Average_Qty",transaction_time from customer_purchases
+group by customer_id,vendor_id,transaction_time) as a;
+
+46. Relative Performance: Calculate a "Performance Score" for each product: (Total Qty Sold of Product) / (Total Qty Sold of All Products in that Category).
+-> 
+select p.product_id,p.product_category_id,pc.product_category_name, sum(cp.quantity) as "product_total",
+(sum(cp.quantity)*1.0/sum(sum(cp.quantity)) over(partition by pc.product_category_id))*100 as "Performance_score"
+
+from product as p
+join customer_purchases as cp
+on p.product_id = cp.product_id
+join product_category as pc
+on pc.product_category_id = p.product_category_id
+
+group by p.product_id,p.product_category_id,pc.product_category_name
